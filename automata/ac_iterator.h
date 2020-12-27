@@ -79,7 +79,7 @@ private:
    * \brief Move by the next symbol.
    */
   void increment() {
-    if (state_ != kInvalidState and it_ != end_) {
+    if (state_ != kInvalidState && it_ != end_) {
       AcProcessorImpl ac_processor(ac_trie_);
       state_ = ac_processor.Move(state_, *it_);
       ++it_;
@@ -92,9 +92,20 @@ private:
    */
   bool equal(const AcSymbolIterator& other) const {
     // All end iterators are equal.
-    if (it_ == end_ and other.it_ == other.end_) {
+    if (it_ == end_ && other.it_ == other.end_) {
       return true;
     }
+    
+    if (it_ == end_ && other.state_ != 0) {
+      return false;
+    }
+    if (it_ != end_ && other.state_ == 0) {
+      return false;
+    }
+    if (it_ == end_ && other.state_ == 0) {
+      return true;
+    }
+    
     return it_ == other.it_;
   }
 
@@ -182,7 +193,7 @@ private:
     if (++index_ >= attrs.size()) {
       bool next = true;
       AcProcessorImpl ac_processor(ac_trie_);
-      for (; next and it_ != end_; ++it_, ++pos_) {
+      for (; next && it_ != end_; ++it_, ++pos_) {
         state_ = ac_processor.Move(state_, *it_);
         const AttributeList& attrs = ac_trie_.GetStateAttributes(state_);
         if (attrs.size()) {
@@ -198,13 +209,16 @@ private:
    * \param  other The iterator object to compare.
    */
   bool equal(const AcChainIterator& other) const {
-    if (it_ == end_ and other.it_ == other.end_) {
+    if (it_ == end_ && other.it_ == other.end_) {
       const AttributeList& attrs = ac_trie_.GetStateAttributes(state_);
       if (index_ >= attrs.size()) {
         return true;
       }
     }
-    return it_ == other.it_ and index_ == other.index_;
+    if (other.state_==0) {
+      return 0;
+    }
+    return it_ == other.it_ && index_ == other.index_;
   }
 
   /**

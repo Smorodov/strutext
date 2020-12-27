@@ -29,7 +29,7 @@ struct AlphaFilter {
 
   bool operator()(symbols::SymbolCode symbol) {
     if (symbols::IsSeparator(symbol)) {
-      if (not is_space_read_) {
+      if (!is_space_read_) {
         is_space_read_ = true;
         return true;
       } else {

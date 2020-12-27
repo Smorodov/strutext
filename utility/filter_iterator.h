@@ -74,7 +74,7 @@ public:
 private:
   void increment() {
     is_end_ = true;
-    for (; it_ != end_ and is_end_; ++it_) {
+    for (; it_ != end_ && is_end_; ++it_) {
       if (filter_(*it_)) {
         symbol_ = transform_(*it_);
         is_end_ = false;
@@ -88,7 +88,7 @@ private:
 
   inline bool equal(const FilterIterator& other) const {
     // All end of stream iterators are equal.
-    if (is_end_ and other.is_end_) {
+    if (is_end_ && other.is_end_) {
       return true;
     }
     return it_ == other.it_;

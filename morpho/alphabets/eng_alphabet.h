@@ -26,7 +26,7 @@ namespace strutext { namespace morpho {
 struct EnglishAlphabet : public Alphabet<EnglishAlphabet> {
   /// Encoding implementation.
   Code EncodeImpl(const Symbol& symbol) const {
-    if (symbol >= 0x61 and symbol <= 0x7a) {
+    if (symbol >= 0x61 && symbol <= 0x7a) {
       return symbol;
     }
     // 0 is bad code.
@@ -35,7 +35,7 @@ struct EnglishAlphabet : public Alphabet<EnglishAlphabet> {
 
   /// Encoding implementation.
   Symbol DecodeImpl(const Code& code) const {
-    if (code >= 0x61 and code <= 0x7a) {
+    if (code >= 0x61 && code <= 0x7a) {
       return code;
     }
     // 0 is bad symbol.

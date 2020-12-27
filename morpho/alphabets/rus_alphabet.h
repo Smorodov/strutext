@@ -27,7 +27,7 @@ struct RussianAlphabet : public Alphabet<RussianAlphabet> {
   /// Encoding implementation.
   Code EncodeImpl(const Symbol& symbol) const {
     // Interval [а;я].
-    if (symbol >= 0x0430 and symbol <= 0x044f) {
+    if (symbol >= 0x0430 && symbol <= 0x044f) {
       return symbol - 0x0430 + 1;
     }
     // 'ё' symbol.
@@ -42,7 +42,7 @@ struct RussianAlphabet : public Alphabet<RussianAlphabet> {
   /// Encoding implementation.
   Symbol DecodeImpl(const Code& code) const {
     // Interval [а;я].
-    if (code >= 1 and code <= 32) {
+    if (code >= 1 && code <= 32) {
       return 0x0430 + code - 1;
     }
     // 'ё' symbol.

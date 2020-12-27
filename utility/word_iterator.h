@@ -64,7 +64,7 @@ public:
 
 private:
   void increment() {
-    if (it_ == end_ and not word_.empty()) {
+    if (it_ == end_ && !word_.empty()) {
       word_.clear();
       return;
     }
@@ -91,10 +91,10 @@ private:
 
   inline bool equal(const WordIterator& other) const {
     // All end of stream iterators are equal.
-    if (it_ == end_ and other.it_ == other.end_ and word_.empty() and other.word_.empty()) {
+    if (it_ == end_ && other.it_ == other.end_ && word_.empty() && other.word_.empty()) {
       return true;
     }
-    return it_ == other.it_ and word_ == other.word_;
+    return it_ == other.it_ && word_ == other.word_;
   }
 
   Word     word_;

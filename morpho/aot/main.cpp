@@ -1,15 +1,15 @@
 /** Copyright &copy; 2013, Vladimir Lapshin.
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
+ *   you may ! use this file except in compliance with the License.
  *   You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *   Unless required by applicable law or agreed to in writing, software
+ *   Unless required by applicable law || agreed to in writing, software
  *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express || implied.
+ *   See the License for the specific language governing permissions &&
  *   limitations under the License.
  *
  * \brief  AOT parser implementation.
@@ -51,13 +51,13 @@ MainFormSuffixList main_form_suffix_list;
 void ParseTabFile(strutext::morpho::AotParser::Ptr parser, const std::string& fname, const std::string& model, Tabs& tabs) {
   // Open tab file.
   std::ifstream tab_file(fname.c_str());
-  if (not tab_file.is_open()) {
-    throw std::invalid_argument(("cannot open tab file: \"" + fname + "\"").c_str());
+  if (!tab_file.is_open()) {
+    throw std::invalid_argument(("can! open tab file: \"" + fname + "\"").c_str());
   }
 
   // Go through strings of tab file.
   std::string line;
-  while (not tab_file.eof()) {
+  while (!tab_file.eof()) {
     std::getline(tab_file, line);
     // Skip empty strings
     if (line.length() == 0) {
@@ -80,7 +80,7 @@ void ParseTabFile(strutext::morpho::AotParser::Ptr parser, const std::string& fn
     size_t pos = line.find_first_not_of(" ");
     if (pos == std::string::npos) {
       continue;
-    } else if (pos and pos < std::string::npos) {
+    } else if (pos && pos < std::string::npos) {
       line = line.substr(pos);
     }
     if (line.length() == 0) {
@@ -100,7 +100,7 @@ void ReadSuffixSection(strutext::morpho::AotParser::Ptr parser, std::ifstream& m
   // Firstly, read number of lines to read.
   std::string line;
   std::getline(mfile, line);
-  boost::algorithm::erase_all(line, "\r");
+  boost::algorithm::erase_all(line, u8"\r");
   if (line.length() == 0) {
     throw std::invalid_argument("It must be number of lines to read in the section begin");
   }
@@ -117,23 +117,23 @@ void ReadSuffixSection(strutext::morpho::AotParser::Ptr parser, std::ifstream& m
       throw std::invalid_argument("Unexpected end of file while read section");
     }
     std::getline(mfile, line);
-
+    //std::cout << line << std::endl;
     // Split line to fields.
     std::vector<std::string> fields;
-    boost::algorithm::split(fields, line, boost::is_any_of("%"));
+    boost::algorithm::split(fields, line, boost::is_any_of(u8"%"));
 
     // Add suffix line.
     uint32_t line_id = strutext::morpho::MorphoModifier::AddSuffixLine(morpher);
 
     // Go throuch the fields.
     for (unsigned i = 1; i < fields.size(); ++i) { // Drop first field.
-      // Split field to suffix and tab.
+      // Split field to suffix && tab.
       std::vector<std::string> pair;
-      boost::algorithm::split(pair, fields[i], boost::is_any_of("*"));
+      boost::algorithm::split(pair, fields[i], boost::is_any_of(u8"*"));
       if (pair.size() < 2) {
         std::stringstream st;
         st << "Incorrect format of suffix section on line #"
-           << line_id << " in tab \"" << fields[i] << "\"";
+           << line_id << " in tab \"" << fields[i] << u8"\"";
         throw std::invalid_argument(st.str().c_str());
       }
       boost::algorithm::erase_all(pair[1], "\r");
@@ -142,14 +142,23 @@ void ReadSuffixSection(strutext::morpho::AotParser::Ptr parser, std::ifstream& m
       Tabs::const_iterator it = tabs.find(pair[1]);
       if (it == tabs.end()) {
         std::stringstream st;
-        st << "Incorrect tab (" << pair[0] << ";" << pair[1] << ") in suffix section on line #" << line_id;
+        st << "Incorrect tab (" << pair[0] << u8";" << pair[1] << ") in suffix section on line #" << line_id;
         throw std::invalid_argument(st.str().c_str());
       } else if (it->second) {
         // Normilize string to lower register.
         typedef strutext::encode::Utf8Iterator<std::string::iterator> Utf8Iterator;
         std::vector<uint32_t> norm_suffix;
-        for (Utf8Iterator sym_it(pair[0].begin(), pair[0].end()); sym_it != Utf8Iterator(); ++sym_it) {
-          norm_suffix.push_back(strutext::symbols::ToLower(*sym_it));
+
+        // Utf8Iterator sym_it = Utf8Iterator(pair[0].begin(), pair[0].end());
+        int ii = 0;
+        if (!pair[0].empty()) {
+
+          for (Utf8Iterator sym_it(pair[0].begin(), pair[0].end()); !sym_it.CheckEnd(); ++sym_it)
+          // for (; ; ++sym_it,++ii)
+          {
+            int32_t s = *sym_it;
+            norm_suffix.push_back(strutext::symbols::ToLower(*sym_it));
+          }
         }
          // Add suffix.
         strutext::morpho::MorphoModifier::AddSuffix(morpher, line_id, it->second, norm_suffix.begin(), norm_suffix.end());
@@ -173,7 +182,7 @@ void DropSection(std::ifstream& mfile) {
   std::string line;
   std::getline(mfile, line);
   boost::algorithm::erase_all(line, "\r");
-  if (line.length() == 0 or line[0] == '\n') {
+  if (line.length() == 0 || line[0] == '\n') {
     throw std::invalid_argument("It must be number of lines to read in the section begin");
   }
   unsigned line_count = atoi(line.c_str());
@@ -198,7 +207,7 @@ void ReadDictionarySection(std::ifstream& mfile, strutext::morpho::Morphologist<
   std::string line;
   std::getline(mfile, line);
   boost::algorithm::erase_all(line, "\r");
-  if (line.length() == 0 or line[0] == '\n') {
+  if (line.length() == 0 || line[0] == '\n') {
     throw std::invalid_argument("It must be number of lines to read in the section begin");
   }
   unsigned line_count = atoi(line.c_str());
@@ -215,7 +224,7 @@ void ReadDictionarySection(std::ifstream& mfile, strutext::morpho::Morphologist<
     }
     std::getline(mfile, line);
     boost::algorithm::erase_all(line, "\r");
-    if (line.length() == 0 or line[0] == '\n') {
+    if (line.length() == 0 || line[0] == '\n') {
       continue;
     }
 
@@ -234,8 +243,11 @@ void ReadDictionarySection(std::ifstream& mfile, strutext::morpho::Morphologist<
     // Normilize string to lower register.
     typedef strutext::encode::Utf8Iterator<std::string::iterator> Utf8Iterator;
     std::vector<uint32_t> norm_base;
-    for (Utf8Iterator sym_it(fields[0].begin(), fields[0].end()); sym_it != Utf8Iterator(); ++sym_it) {
-      norm_base.push_back(strutext::symbols::ToLower(*sym_it));
+    if (!fields[0].empty()) {
+
+      for (Utf8Iterator sym_it(fields[0].begin(), fields[0].end()); !sym_it.CheckEnd(); ++sym_it) {
+        norm_base.push_back(strutext::symbols::ToLower(*sym_it));
+      }
     }
 
     // Calculate main form.
@@ -255,9 +267,9 @@ void ReadDictFile(strutext::morpho::AotParser::Ptr parser, const std::string& dn
   strutext::morpho::Morphologist<Alphabet> morpher;
 
   // Open dictionaty file.
-  std::ifstream dic_file(dname.c_str());
-  if (not dic_file.is_open()) {
-    throw std::invalid_argument(("cannot open dictionary file: \"" + dname + "\"").c_str());
+  std::ifstream dic_file(dname.c_str(),std::ios::binary);
+  if (!dic_file.is_open()) {
+    throw std::invalid_argument(("can! open dictionary file: \"" + dname + "\"").c_str());
   }
   ReadSuffixSection(parser, dic_file, morpher, tabs);
   DropSection(dic_file);
@@ -267,9 +279,9 @@ void ReadDictFile(strutext::morpho::AotParser::Ptr parser, const std::string& dn
 
   // Serialize morphologist object.
   std::cerr << "Start serialization...\n";
-  std::ofstream bfile(bname.c_str());
-  if (not bfile.is_open()) {
-    throw std::invalid_argument(("cannot open binary dictionary file: \"" + bname + "\"").c_str());
+  std::ofstream bfile(bname.c_str(),std::ios::binary);
+  if (!bfile.is_open()) {
+    throw std::invalid_argument(("can! open binary dictionary file: \"" + bname + "\"").c_str());
   }
   morpher.Serialize(bfile);
   std::cerr << "Serialization completed\n";
@@ -280,6 +292,8 @@ void ReadDictFile(strutext::morpho::AotParser::Ptr parser, const std::string& dn
 } // namespace.
 
 int main(int argc, char* argv[]) {
+  setlocale(LC_ALL, "ru_RU.UTF8");
+  std::locale::global(std::locale("ru_RU.UTF8"));
   try {
     namespace po = boost::program_options;
     po::options_description desc("Allowed options");

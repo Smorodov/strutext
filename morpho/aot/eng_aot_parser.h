@@ -207,7 +207,7 @@ public:
       pos = EnglishPos::Ptr(new english::Adverb());
       english::Adverb* pp = static_cast<english::Adverb*>(pos.get());
       pp->degree_     = attrs.degree_;
-    } else if (fields[2] == "VERB" or fields[2] == "MOD" or fields[2] == "VBE") {
+    } else if (fields[2] == "VERB" || fields[2] == "MOD" || fields[2] == "VBE") {
       pos = EnglishPos::Ptr(new english::Verb());
       english::Verb* pp = static_cast<english::Verb*>(pos.get());
       pp->time_       = attrs.time_;

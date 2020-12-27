@@ -188,7 +188,7 @@ struct RussianPosDecription {
       }
 
       default:
-        assert(false and "incorrect part of speech value");
+        assert(false && "incorrect part of speech value");
     }
     return st.str();
   }
@@ -216,7 +216,7 @@ struct RussianPosDecription {
       case RussianPos::INTRODUCTORY_WORD_PS:    return "вводное слово";
 
       default:
-        assert(false and "incorrect part of speech value");
+        assert(false && "incorrect part of speech value");
     }
     return "некорректное значение";
   }
@@ -229,7 +229,7 @@ struct RussianPosDecription {
       case RussianPos::PLURAL_NUMBER: return "множественное число";
 
       default:
-        assert(false and "incorrect value");
+        assert(false && "incorrect value");
     }
     return "некорректное значение";
   }
@@ -243,7 +243,7 @@ struct RussianPosDecription {
       case RussianPos::INFORMAL_LANG: return "неформальный язык";
 
       default:
-        assert(false and "incorrect  value");
+        assert(false && "incorrect  value");
     }
     return "некорректное значение";
   }
@@ -257,7 +257,7 @@ struct RussianPosDecription {
       case RussianPos::NEUTER_GENDER: return "средний род";
 
       default:
-        assert(false and "incorrect  value");
+        assert(false && "incorrect  value");
     }
     return "некорректное значение";
   }
@@ -277,7 +277,7 @@ struct RussianPosDecription {
       case RussianPos::VOCATIVE_CASE: return "звательный падеж";
 
       default:
-        assert(false and "incorrect  value");
+        assert(false && "incorrect  value");
     }
     return "некорректное значение";
   }
@@ -291,7 +291,7 @@ struct RussianPosDecription {
       case RussianPos::PAST_TIME: return "прошедшее время";
 
       default:
-        assert(false and "incorrect  value");
+        assert(false && "incorrect  value");
     }
     return "некорректное значение";
   }
@@ -305,7 +305,7 @@ struct RussianPosDecription {
       case RussianPos::THIRD_PERSON: return "третье лицо";
 
       default:
-        assert(false and "incorrect  value");
+        assert(false && "incorrect  value");
     }
     return "некорректное значение";
   }
@@ -320,7 +320,7 @@ struct RussianPosDecription {
       case RussianPos::FAMILY_NAME_ENTITY: return "фамилии";
 
       default:
-        assert(false and "incorrect  value");
+        assert(false && "incorrect  value");
     }
     return "некорректное значение";
   }
@@ -333,7 +333,7 @@ struct RussianPosDecription {
       case RussianPos::INANIMATE_ANIMATION: return "неодушевленный";
 
       default:
-        assert(false and "incorrect  value");
+        assert(false && "incorrect  value");
     }
     return "некорректное значение";
   }
@@ -346,7 +346,7 @@ struct RussianPosDecription {
       case RussianPos::INANIMATE_ANIMATION: return "страдательный залог";
 
       default:
-        assert(false and "incorrect  value");
+        assert(false && "incorrect  value");
     }
     return "некорректное значение";
   }

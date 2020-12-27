@@ -88,14 +88,11 @@ class Utf8Iterator : public  boost::iterator_facade<
   // Declaration for iterator_facade.
   friend class boost::iterator_core_access;
 
-  /// Check the end.
-  bool CheckEnd() const {
-    return iter_ == end_;
-  }
+
 
   /// Getting next byte from the stream.
   bool Next() {
-    if (iter_ != end_ and ++iter_ != end_) {
+    if (iter_ != end_ && ++iter_ != end_) {
       ++byte_pos_;
       return true;
     }
@@ -110,8 +107,8 @@ class Utf8Iterator : public  boost::iterator_facade<
       default:
         return false;
       // Last byte check.
-      case 4: if ((a = (*--srcptr)) < 0x80 or a > 0xBF) return false;
-      case 3: if ((a = (*--srcptr)) < 0x80 or a > 0xBF) return false;
+      case 4: if ((a = (*--srcptr)) < 0x80 || a > 0xBF) return false;
+      case 3: if ((a = (*--srcptr)) < 0x80 || a > 0xBF) return false;
       case 2: if ((a = (*--srcptr)) > 0xBF) return false;
 
       switch (*source) {
@@ -123,7 +120,7 @@ class Utf8Iterator : public  boost::iterator_facade<
         default:   if (a < 0x80) return false;
       }
 
-      case 1: if (*source >= 0x80 and *source < 0xC2) return false;
+      case 1: if (*source >= 0x80 && *source < 0xC2) return false;
     }
 
     if (*source > 0xF4) {
@@ -157,35 +154,35 @@ class Utf8Iterator : public  boost::iterator_facade<
         symbol_.chain_[0] = *iter_;
         decoded_symbol += static_cast<uint8_t>(*iter_);
         decoded_symbol <<= 6;
-        if (not Next()) {
+        if (!Next()) {
           return;
         }
       case 4:
         symbol_.chain_[extra_bytes_to_read-4] = *iter_;
         decoded_symbol += static_cast<uint8_t>(*iter_);
         decoded_symbol <<= 6;
-        if (not Next()) {
+        if (!Next()) {
           return;
         }
       case 3:
         symbol_.chain_[extra_bytes_to_read-3] = *iter_;
         decoded_symbol += static_cast<uint8_t>(*iter_);
         decoded_symbol <<= 6;
-        if (not Next()) {
+        if (!Next()) {
           return;
         }
       case 2:
         symbol_.chain_[extra_bytes_to_read-2] = *iter_;
         decoded_symbol += static_cast<uint8_t>(*iter_);
         decoded_symbol <<= 6;
-        if (not Next()) {
+        if (!Next()) {
           return;
         }
       case 1:
         symbol_.chain_[extra_bytes_to_read-1] = *iter_;
         decoded_symbol += static_cast<uint8_t>(*iter_);
         decoded_symbol <<= 6;
-        if (not Next()) {
+        if (!Next()) {
           return;
         }
       case 0:
@@ -211,7 +208,7 @@ class Utf8Iterator : public  boost::iterator_facade<
 
   /// Next symbol getting.
   inline void increment() {
-    if (not Next()) {
+    if (!Next()) {
       return;
     }
     RealIncrement();
@@ -220,7 +217,7 @@ class Utf8Iterator : public  boost::iterator_facade<
   /// Compare operator.
   inline bool equal(const Utf8Iterator& other) const {
     // All end iterators are equal.
-    if (iter_ == end_ and other.iter_ == other.end_) {
+    if (iter_ == end_ && other.iter_ == other.end_) {
       return true;
     }
     return iter_ == other.iter_;
@@ -230,6 +227,8 @@ class Utf8Iterator : public  boost::iterator_facade<
   uint32_t dereference() const { return symbol_.utf32_; }
 
 public:
+  /// Check the end.
+  bool CheckEnd() const { return iter_ == end_; }
   /// End of stream initialization.
   Utf8Iterator()
     : iter_()

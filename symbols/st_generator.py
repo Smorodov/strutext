@@ -88,11 +88,11 @@ def generate(textTablePath, binTablePath):
   symbol = {}
   try:
     # Open UNICODE data file and read symbol informations from it.
-    f = open(textTablePath, 'rb')
+    f = open('UnicodeData.txt', 'r')
     for line in f:
       lineParams = line.split(';')
-      if lineParams.__len__() <> 15:
-        print "Incorrect UNICODE data file format: '", line, "'"
+      if lineParams.__len__() != 15:
+        print ("Incorrect UNICODE data file format: '", line, "'")
         sys.exit(4)
       else:
         # Remember symbol properties.
@@ -103,7 +103,7 @@ def generate(textTablePath, binTablePath):
     f.close()
 
     # Trying to generate output.
-    f = open(binTablePath, 'wb')
+    f = open('symbol_table.cpp', 'w')
     generateFileProlog(f)
 
     # Generate symbol classes from 0 to 2^21 - 1.
@@ -118,7 +118,7 @@ def generate(textTablePath, binTablePath):
         if symbol[2] in classes:
           f.write("static_cast<uint32_t>({0}) // {1}.\n".format(classes[symbol[2]], symbol[1]))
         else:
-            print "Incorrect symbol class {0} for symbol {1}".format(symbol[2], symbol[0])
+            print ("Incorrect symbol class {0} for symbol {1}".format(symbol[2], symbol[0]))
             sys.exit(5)
       else:
         f.write("static_cast<uint32_t>(UNASSIGNED)\n")
@@ -152,18 +152,18 @@ def generate(textTablePath, binTablePath):
 
     generateFileEpilog(f)
     f.close()
-  except IOError as (strerror):
-    print "Error: {0}".format(strerror)
+  except IOError as strerror:
+    print ("Error: {0}".format(strerror))
     sys.exit(3)
 
 def usage():
-  print "usage:\n  [--help]\n  --from='UNICODE text file'\n  --to='symbol table file'"
+  print ("usage:\n  [--help]\n  --from='UNICODE text file'\n  --to='symbol table file'")
 
 def main():
   try:
     opts, args = getopt.getopt(sys.argv[1:], "hf:t:", ["help", "from=", "to="])
-  except getopt.GetoptError, err:
-    print str(err)
+  except getopt.GetoptError as err:
+    print (str(err))
     usage()
     sys.exit(2)
 

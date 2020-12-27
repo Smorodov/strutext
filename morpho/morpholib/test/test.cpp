@@ -1,15 +1,15 @@
 /** Copyright &copy; 2013, Vladimir Lapshin.
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
+ *   you may ! use this file except in compliance with the License.
  *   You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *   Unless required by applicable law or agreed to in writing, software
+ *   Unless required by applicable law || agreed to in writing, software
  *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express || implied.
+ *   See the License for the specific language governing permissions &&
  *   limitations under the License.
  *
  * \brief  Morpholib unit test.
@@ -18,7 +18,8 @@
 
 #include <sstream>
 
-#include <boost/test/unit_test.hpp>
+//#include <boost/test/unit_test.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include "utf8_iterator.h"
 #include "rus_alphabet.h"
@@ -30,6 +31,9 @@
 #include "rus_model_description.h"
 #include "eng_model_description.h"
 
+#include "spdlog/spdlog.h"
+#include "spdlog/cfg/env.h" // support for loading levels from the environment variable
+
 namespace {
 
 namespace m = strutext::morpho;
@@ -40,7 +44,7 @@ typedef strutext::encode::Utf8Iterator<std::string::iterator> Utf8Iterator;
 } // namespace.
 
 // English analysis test.
-BOOST_AUTO_TEST_CASE(MorphoLib_Analysis_English) {
+TEST_CASE("MorphoLib_Analysis_English") {
   typedef m::Morphologist<m::EnglishAlphabet> Morpher;
   Morpher morpher;
 
@@ -58,15 +62,15 @@ BOOST_AUTO_TEST_CASE(MorphoLib_Analysis_English) {
   std::string form = "helloab";
   morpher.Analize(form, lem_list);
 
-  BOOST_CHECK_EQUAL(lem_list.size(), 1);
+  REQUIRE(lem_list.size()==1);
   for (Morpher::LemList::iterator it = lem_list.begin(); it != lem_list.end(); ++it) {
-    BOOST_CHECK_EQUAL(it->id_, 1);
-    BOOST_CHECK_EQUAL(it->attr_, 1);
+    REQUIRE(it->id_== 1);
+    REQUIRE(it->attr_== 1);
   }
 }
 
 // Russian analysis test.
-BOOST_AUTO_TEST_CASE(MorphoLib_Analysis_Russian) {
+TEST_CASE("MorphoLib_Analysis_Russian") {
   typedef m::Morphologist<m::RussianAlphabet> Morpher;
   Morpher morpher;
 
@@ -89,7 +93,7 @@ BOOST_AUTO_TEST_CASE(MorphoLib_Analysis_Russian) {
   std::string form = "мама";
   morpher.Analize(form, lem_list);
 
-  BOOST_CHECK_EQUAL(lem_list.size(), 2);
+  REQUIRE(lem_list.size()== 2);
   bool one_done = false, three_done = false;
   for (Morpher::LemList::iterator it = lem_list.begin(); it != lem_list.end(); ++it) {
     switch (it->attr_) {
@@ -100,30 +104,30 @@ BOOST_AUTO_TEST_CASE(MorphoLib_Analysis_Russian) {
         three_done = true;
         break;
       default:
-        BOOST_ERROR("Incorrect attribute value: " << it->attr_);
+        spdlog::critical("Incorrect attribute value: " + it->attr_);
     }
   }
-  BOOST_CHECK(one_done);
-  BOOST_CHECK(three_done);
+  REQUIRE(one_done);
+  REQUIRE(three_done);
 }
 
 // English alphabet test.
-BOOST_AUTO_TEST_CASE(MorphoLib_Alphabet_English) {
+TEST_CASE("MorphoLib_Alphabet_English") {
   m::EnglishAlphabet alphabet;
   std::string alpha_str = "qwertyuiopasdfghjklzxcvbnm";
   for (Utf8Iterator sym_it(alpha_str.begin(), alpha_str.end()); sym_it != Utf8Iterator(); ++sym_it) {
-    BOOST_CHECK_EQUAL(*sym_it, alphabet.Encode(*sym_it));
-    BOOST_CHECK_EQUAL(*sym_it, alphabet.Decode(*sym_it));
+    REQUIRE(*sym_it==alphabet.Encode(*sym_it));
+    REQUIRE(*sym_it==alphabet.Decode(*sym_it));
   }
 }
 
 // Russian alphabet test.
-BOOST_AUTO_TEST_CASE(MorphoLib_Alphabet_Russian) {
+TEST_CASE("MorphoLib_Alphabet_Russian") {
   m::RussianAlphabet alphabet;
   std::string alpha_str = "абвгдежзийклмнопрстуфхцчшщъыьэюяё";
   unsigned code = 1;
   for (Utf8Iterator sym_it(alpha_str.begin(), alpha_str.end()); sym_it != Utf8Iterator(); ++sym_it, ++code) {
-    BOOST_CHECK_EQUAL(code, alphabet.Encode(*sym_it));
-    BOOST_CHECK_EQUAL(*sym_it, alphabet.Decode(code));
+    REQUIRE(code== alphabet.Encode(*sym_it));
+    REQUIRE(*sym_it== alphabet.Decode(code));
   }
 }

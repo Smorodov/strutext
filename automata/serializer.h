@@ -93,8 +93,9 @@ public:
 
     // Prepare the buffer.
     std::vector<char> buffer(moves_size);
-    is.read(&buffer[0], moves_size);
-
+    if (moves_size > 0) {
+      is.read(&buffer[0], moves_size);
+    }
     // Read the data.
     typename Transitions::TransTable::iterator lpos = moves.trans_table_.end();
     for (unsigned i = 0; i < num_of_moves; ++i) {
@@ -305,9 +306,11 @@ struct AttrFsmSerializer {
       // Read attributes of the state.
       buffer.resize(num_of_attrs);
       automaton.states_attr_[i].resize(num_of_attrs);
-      is.read(reinterpret_cast<char*>(&buffer[0]), sizeof(typename Automaton::Attribute) * buffer.size());
-      for (unsigned j = 0; j < num_of_attrs; ++j) {
-        automaton.states_attr_[i][j] = buffer[j];
+      if (num_of_attrs > 0) {
+        is.read(reinterpret_cast<char*>(&buffer[0]), sizeof(typename Automaton::Attribute) * buffer.size());
+        for (unsigned j = 0; j < num_of_attrs; ++j) {
+          automaton.states_attr_[i][j] = buffer[j];
+        }
       }
     }
   }

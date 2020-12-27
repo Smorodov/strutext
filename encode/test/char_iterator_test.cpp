@@ -1,23 +1,23 @@
 /** Copyright &copy; 2013, Vladimir Lapshin.
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
+ *   you may ! use this file except in compliance with the License.
  *   You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *   Unless required by applicable law or agreed to in writing, software
+ *   Unless required by applicable law || agreed to in writing, software
  *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express || implied.
+ *   See the License for the specific language governing permissions &&
  *   limitations under the License.
  *
  * \brief  Single byte character iterator unit test.
  * \author Vladimir Lapshin.
  */
 
-#include <boost/test/unit_test.hpp>
-
+//#include <boost/test/unit_test.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include "char_iterator.h"
 #include "char_unicode32_decoder.h"
 
@@ -70,8 +70,8 @@ static const char word[] = {
 };
 
 } // namespace.
-
-BOOST_AUTO_TEST_CASE(Encode_CharIterator_Cp1251) {
+TEST_CASE("Encode_CharIterator_Cp1251 ", "[single-file]")
+{
   uint32_t result_check[256] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000003, 0x00000004, 0x00000005, 0x00000006, 0x00000007,
     0x00000008, 0x00000009, 0x0000000a, 0x0000000b, 0x0000000c, 0x0000000d, 0x0000000e, 0x0000000f,
@@ -109,11 +109,11 @@ BOOST_AUTO_TEST_CASE(Encode_CharIterator_Cp1251) {
 
   size_t index = 0;
   for (Cp1251Iterator it(word, word + sizeof(word)), end; it != end; ++it, ++index) {
-    BOOST_CHECK_EQUAL(*it, result_check[index]);
+    REQUIRE(*it==result_check[index]);
   }
 }
 
-BOOST_AUTO_TEST_CASE(Encode_CharIterator_CP1252) {
+TEST_CASE("Encode_CharIterator_CP1252") {
   uint32_t result_check[256] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000003, 0x00000004, 0x00000005, 0x00000006, 0x00000007,
     0x00000008, 0x00000009, 0x0000000a, 0x0000000b, 0x0000000c, 0x0000000d, 0x0000000e, 0x0000000f,
@@ -151,11 +151,11 @@ BOOST_AUTO_TEST_CASE(Encode_CharIterator_CP1252) {
 
   size_t index = 0;
   for (Cp1252Iterator it(word, word + sizeof(word)), end; it != end; ++it, ++index) {
-    BOOST_CHECK_EQUAL(*it, result_check[index]);
+    REQUIRE(*it == result_check[index]);
   }
 }
 
-BOOST_AUTO_TEST_CASE(Encode_CharIterator_CP1253) {
+TEST_CASE("Encode_CharIterator_CP1253") {
   uint32_t result_check[256] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000003, 0x00000004, 0x00000005, 0x00000006, 0x00000007,
     0x00000008, 0x00000009, 0x0000000a, 0x0000000b, 0x0000000c, 0x0000000d, 0x0000000e, 0x0000000f,
@@ -193,11 +193,11 @@ BOOST_AUTO_TEST_CASE(Encode_CharIterator_CP1253) {
 
   size_t index = 0;
   for (Cp1253Iterator it(word, word + sizeof(word)), end; it != end; ++it, ++index) {
-    BOOST_CHECK_EQUAL(*it, result_check[index]);
+    REQUIRE(*it == result_check[index]);
   }
 }
 
-BOOST_AUTO_TEST_CASE(Encode_CharIterator_CP866) {
+TEST_CASE("Encode_CharIterator_CP866") {
   uint32_t result_check[256] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000003, 0x00000004, 0x00000005, 0x00000006, 0x00000007,
     0x00000008, 0x00000009, 0x0000000a, 0x0000000b, 0x0000000c, 0x0000000d, 0x0000000e, 0x0000000f,
@@ -235,11 +235,11 @@ BOOST_AUTO_TEST_CASE(Encode_CharIterator_CP866) {
 
   size_t index = 0;
   for (Cp866Iterator it(word, word + sizeof(word)), end; it != end; ++it, ++index) {
-    BOOST_CHECK_EQUAL(*it, result_check[index]);
+    REQUIRE(*it == result_check[index]);
   }
 }
 
-BOOST_AUTO_TEST_CASE(Encode_CharIterator_Iso8859) {
+TEST_CASE("Encode_CharIterator_Iso8859") {
   uint32_t result_check[256] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000003, 0x00000004, 0x00000005, 0x00000006, 0x00000007,
     0x00000008, 0x00000009, 0x0000000a, 0x0000000b, 0x0000000c, 0x0000000d, 0x0000000e, 0x0000000f,
@@ -278,11 +278,11 @@ BOOST_AUTO_TEST_CASE(Encode_CharIterator_Iso8859) {
 
   size_t index = 0;
   for (Iso88591Iterator it(word, word + sizeof(word)), end; it != end; ++it, ++index) {
-    BOOST_CHECK_EQUAL(*it, result_check[index]);
+    REQUIRE(*it == result_check[index]);
   }
 }
 
-BOOST_AUTO_TEST_CASE(Encode_CharIterator_Koi8r) {
+TEST_CASE("Encode_CharIterator_Koi8r") {
   uint32_t result_check[256] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000003, 0x00000004, 0x00000005, 0x00000006, 0x00000007,
     0x00000008, 0x00000009, 0x0000000a, 0x0000000b, 0x0000000c, 0x0000000d, 0x0000000e, 0x0000000f,
@@ -320,11 +320,11 @@ BOOST_AUTO_TEST_CASE(Encode_CharIterator_Koi8r) {
 
   size_t index = 0;
   for (Koi8r1Iterator it(word, word + sizeof(word)), end; it != end; ++it, ++index) {
-    BOOST_CHECK_EQUAL(*it, result_check[index]);
+    REQUIRE(*it==result_check[index]);
   }
 }
 
-BOOST_AUTO_TEST_CASE(Encode_CharIterator_Koi8ru) {
+TEST_CASE("Encode_CharIterator_Koi8ru") {
   uint32_t result_check[256] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000003, 0x00000004, 0x00000005, 0x00000006, 0x00000007,
     0x00000008, 0x00000009, 0x0000000a, 0x0000000b, 0x0000000c, 0x0000000d, 0x0000000e, 0x0000000f,
@@ -362,11 +362,11 @@ BOOST_AUTO_TEST_CASE(Encode_CharIterator_Koi8ru) {
 
   size_t index = 0;
   for (Koi8ruIterator it(word, word + sizeof(word)), end; it != end; ++it, ++index) {
-    BOOST_CHECK_EQUAL(*it, result_check[index]);
+    REQUIRE(*it== result_check[index]);
   }
 }
 
-BOOST_AUTO_TEST_CASE(Encode_CharIterator_Koi8u) {
+TEST_CASE("Encode_CharIterator_Koi8u") {
   uint32_t result_check[256] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000003, 0x00000004, 0x00000005, 0x00000006, 0x00000007,
     0x00000008, 0x00000009, 0x0000000a, 0x0000000b, 0x0000000c, 0x0000000d, 0x0000000e, 0x0000000f,
@@ -404,11 +404,11 @@ BOOST_AUTO_TEST_CASE(Encode_CharIterator_Koi8u) {
 
   size_t index = 0;
   for (Koi8uIterator it(word, word + sizeof(word)), end; it != end; ++it, ++index) {
-    BOOST_CHECK_EQUAL(*it, result_check[index]);
+    REQUIRE(*it==result_check[index]);
   }
 }
 
-BOOST_AUTO_TEST_CASE(Encode_CharIterator_MacCyrillic) {
+TEST_CASE("Encode_CharIterator_MacCyrillic") {
   uint32_t result_check[256] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000003, 0x00000004, 0x00000005, 0x00000006, 0x00000007,
     0x00000008, 0x00000009, 0x0000000a, 0x0000000b, 0x0000000c, 0x0000000d, 0x0000000e, 0x0000000f,
@@ -446,11 +446,11 @@ BOOST_AUTO_TEST_CASE(Encode_CharIterator_MacCyrillic) {
 
   size_t index = 0;
   for (MacCyrillicIterator it(word, word + sizeof(word)), end; it != end; ++it, ++index) {
-    BOOST_CHECK_EQUAL(*it, result_check[index]);
+    REQUIRE(*it== result_check[index]);
   }
 }
 
-BOOST_AUTO_TEST_CASE(Encode_CharIterator_MacUkraine) {
+TEST_CASE("Encode_CharIterator_MacUkraine") {
   uint32_t result_check[256] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000003, 0x00000004, 0x00000005, 0x00000006, 0x00000007,
     0x00000008, 0x00000009, 0x0000000a, 0x0000000b, 0x0000000c, 0x0000000d, 0x0000000e, 0x0000000f,
@@ -488,6 +488,6 @@ BOOST_AUTO_TEST_CASE(Encode_CharIterator_MacUkraine) {
 
   size_t index = 0;
   for (MacUkraineIterator it(word, word + sizeof(word)), end; it != end; ++it, ++index) {
-    BOOST_CHECK_EQUAL(*it, result_check[index]);
+    REQUIRE(*it== result_check[index]);
   }
 }

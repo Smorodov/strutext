@@ -18,9 +18,9 @@
 
 #pragma once
 
-#include <vector>
 #include <set>
 #include <string>
+#include <vector>
 
 #include <boost/algorithm/string.hpp>
 
@@ -28,7 +28,8 @@
 #include "rus_alphabet.h"
 #include "rus_model.h"
 
-namespace strutext { namespace morpho {
+namespace strutext {
+namespace morpho {
 
 class RussianAotParser : public AotParser {
   typedef std::set<std::string> MainFormCodeList;
@@ -48,8 +49,7 @@ class RussianAotParser : public AotParser {
       , brevity_(false)
       , relativity_(false)
       , quastionarity_(false)
-      , unchanged_(false) {
-    }
+      , unchanged_(false) {}
 
     void Parse(const std::string& attrs_str) {
       std::vector<std::string> attrs;
@@ -100,7 +100,7 @@ class RussianAotParser : public AotParser {
           lang_ = RussianPos::INFORMAL_LANG;
         } else if (attrs[i] == "арх") {
           lang_ = RussianPos::ARCHAIZM_LANG;
-        } else if (attrs[i] == "проф" or attrs[i] == "жарг") {
+        } else if (attrs[i] == "проф" || attrs[i] == "жарг") {
           lang_ = RussianPos::SLANG_LANG;
         } else if (attrs[i] == "буд") {
           time_ = RussianPos::FUTURE_TIME;
@@ -144,20 +144,20 @@ class RussianAotParser : public AotParser {
       }
     }
 
-    RussianPos::Number    number_;
-    RussianPos::Lang      lang_;
-    RussianPos::Gender    gender_;
-    RussianPos::Case      case_;
-    RussianPos::Time      time_;
-    RussianPos::Person    person_;
-    RussianPos::Entity    entity_;
+    RussianPos::Number number_;
+    RussianPos::Lang lang_;
+    RussianPos::Gender gender_;
+    RussianPos::Case case_;
+    RussianPos::Time time_;
+    RussianPos::Person person_;
+    RussianPos::Entity entity_;
     RussianPos::Animation animation_;
-    RussianPos::Voice     voice_;
-    bool                  impersonal_;
-    bool                  brevity_;
-    bool                  relativity_;
-    bool                  quastionarity_;
-    bool                  unchanged_;
+    RussianPos::Voice voice_;
+    bool impersonal_;
+    bool brevity_;
+    bool relativity_;
+    bool quastionarity_;
+    bool unchanged_;
   };
 
 public:
@@ -248,146 +248,146 @@ public:
 
     // Read part of speech.
     RussianPos::Ptr pos;
-    if (fields[2] == "С") { // noun.
+    if (fields[2] == "С") {  // noun.
       pos = RussianPos::Ptr(new russian::Noun());
       russian::Noun* pp = static_cast<russian::Noun*>(pos.get());
-      pp->number_     = attrs.number_;
-      pp->lang_       = attrs.lang_;
-      pp->gender_     = attrs.gender_;
-      pp->case_       = attrs.case_;
-      pp->entity_     = attrs.entity_;
+      pp->number_ = attrs.number_;
+      pp->lang_ = attrs.lang_;
+      pp->gender_ = attrs.gender_;
+      pp->case_ = attrs.case_;
+      pp->entity_ = attrs.entity_;
     } else if (fields[2] == "П") {
       pos = RussianPos::Ptr(new russian::Adjective());
       russian::Adjective* pp = static_cast<russian::Adjective*>(pos.get());
-      pp->number_     = attrs.number_;
-      pp->lang_       = attrs.lang_;
-      pp->gender_     = attrs.gender_;
-      pp->case_       = attrs.case_;
-      pp->animation_  = attrs.animation_;
-      pp->brevity_    = attrs.brevity_;
+      pp->number_ = attrs.number_;
+      pp->lang_ = attrs.lang_;
+      pp->gender_ = attrs.gender_;
+      pp->case_ = attrs.case_;
+      pp->animation_ = attrs.animation_;
+      pp->brevity_ = attrs.brevity_;
     } else if (fields[2] == "МС") {
       pos = RussianPos::Ptr(new russian::PronounNoun());
       russian::PronounNoun* pp = static_cast<russian::PronounNoun*>(pos.get());
-      pp->number_     = attrs.number_;
-      pp->lang_       = attrs.lang_;
-      pp->gender_     = attrs.gender_;
-      pp->case_       = attrs.case_;
-      pp->person_     = attrs.person_;
+      pp->number_ = attrs.number_;
+      pp->lang_ = attrs.lang_;
+      pp->gender_ = attrs.gender_;
+      pp->case_ = attrs.case_;
+      pp->person_ = attrs.person_;
     } else if (fields[2] == "Г") {
       pos = RussianPos::Ptr(new russian::Verb());
       russian::Verb* pp = static_cast<russian::Verb*>(pos.get());
-      pp->number_     = attrs.number_;
-      pp->lang_       = attrs.lang_;
-      pp->time_       = attrs.time_;
-      pp->voice_      = attrs.voice_;
-      pp->person_     = attrs.person_;
-      pp->gender_     = attrs.gender_;
+      pp->number_ = attrs.number_;
+      pp->lang_ = attrs.lang_;
+      pp->time_ = attrs.time_;
+      pp->voice_ = attrs.voice_;
+      pp->person_ = attrs.person_;
+      pp->gender_ = attrs.gender_;
       pp->impersonal_ = attrs.impersonal_;
     } else if (fields[2] == "ПРИЧАСТИЕ") {
       pos = RussianPos::Ptr(new russian::Participle());
       russian::Participle* pp = static_cast<russian::Participle*>(pos.get());
-      pp->number_     = attrs.number_;
-      pp->lang_       = attrs.lang_;
-      pp->time_       = attrs.time_;
-      pp->voice_      = attrs.voice_;
-      pp->case_       = attrs.case_;
-      pp->gender_     = attrs.gender_;
-      pp->animation_  = attrs.animation_;
+      pp->number_ = attrs.number_;
+      pp->lang_ = attrs.lang_;
+      pp->time_ = attrs.time_;
+      pp->voice_ = attrs.voice_;
+      pp->case_ = attrs.case_;
+      pp->gender_ = attrs.gender_;
+      pp->animation_ = attrs.animation_;
     } else if (fields[2] == "ДЕЕПРИЧАСТИЕ") {
       pos = RussianPos::Ptr(new russian::AdverbParticiple());
       russian::AdverbParticiple* pp = static_cast<russian::AdverbParticiple*>(pos.get());
-      pp->lang_       = attrs.lang_;
-      pp->time_       = attrs.time_;
-      pp->voice_      = attrs.voice_;
+      pp->lang_ = attrs.lang_;
+      pp->time_ = attrs.time_;
+      pp->voice_ = attrs.voice_;
     } else if (fields[2] == "ИНФИНИТИВ") {
       pos = RussianPos::Ptr(new russian::Verb());
       russian::Verb* pp = static_cast<russian::Verb*>(pos.get());
-      pp->number_     = attrs.number_;
-      pp->lang_       = attrs.lang_;
-      pp->time_       = attrs.time_;
-      pp->voice_      = attrs.voice_;
-      pp->person_     = attrs.person_;
+      pp->number_ = attrs.number_;
+      pp->lang_ = attrs.lang_;
+      pp->time_ = attrs.time_;
+      pp->voice_ = attrs.voice_;
+      pp->person_ = attrs.person_;
       pp->impersonal_ = attrs.impersonal_;
     } else if (fields[2] == "МС-ПРЕДК") {
       pos = RussianPos::Ptr(new russian::PronounPredicative());
       russian::PronounPredicative* pp = static_cast<russian::PronounPredicative*>(pos.get());
-      pp->number_     = attrs.number_;
-      pp->lang_       = attrs.lang_;
-      pp->case_       = attrs.case_;
+      pp->number_ = attrs.number_;
+      pp->lang_ = attrs.lang_;
+      pp->case_ = attrs.case_;
     } else if (fields[2] == "МС-П") {
       pos = RussianPos::Ptr(new russian::PronounAdjective());
       russian::PronounAdjective* pp = static_cast<russian::PronounAdjective*>(pos.get());
-      pp->number_     = attrs.number_;
-      pp->lang_       = attrs.lang_;
-      pp->gender_     = attrs.gender_;
-      pp->case_       = attrs.case_;
-      pp->animation_  = attrs.animation_;
+      pp->number_ = attrs.number_;
+      pp->lang_ = attrs.lang_;
+      pp->gender_ = attrs.gender_;
+      pp->case_ = attrs.case_;
+      pp->animation_ = attrs.animation_;
     } else if (fields[2] == "ЧИСЛ") {
       pos = RussianPos::Ptr(new russian::NumeralQuantitative());
       russian::NumeralQuantitative* pp = static_cast<russian::NumeralQuantitative*>(pos.get());
-      pp->lang_       = attrs.lang_;
-      pp->gender_     = attrs.gender_;
-      pp->case_       = attrs.case_;
+      pp->lang_ = attrs.lang_;
+      pp->gender_ = attrs.gender_;
+      pp->case_ = attrs.case_;
     } else if (fields[2] == "ЧИСЛ-П") {
       pos = RussianPos::Ptr(new russian::NumeralOrdinal());
       russian::NumeralOrdinal* pp = static_cast<russian::NumeralOrdinal*>(pos.get());
-      pp->number_     = attrs.number_;
-      pp->lang_       = attrs.lang_;
-      pp->gender_     = attrs.gender_;
-      pp->case_       = attrs.case_;
-      pp->animation_  = attrs.animation_;
+      pp->number_ = attrs.number_;
+      pp->lang_ = attrs.lang_;
+      pp->gender_ = attrs.gender_;
+      pp->case_ = attrs.case_;
+      pp->animation_ = attrs.animation_;
     } else if (fields[2] == "Н") {
       pos = RussianPos::Ptr(new russian::Adverb());
       russian::Adverb* pp = static_cast<russian::Adverb*>(pos.get());
-      pp->lang_           = attrs.lang_;
-      pp->relativity_     = attrs.relativity_;
-      pp->quastionarity_  = attrs.quastionarity_;
-      pp->brevity_        = attrs.brevity_;
+      pp->lang_ = attrs.lang_;
+      pp->relativity_ = attrs.relativity_;
+      pp->quastionarity_ = attrs.quastionarity_;
+      pp->brevity_ = attrs.brevity_;
     } else if (fields[2] == "ПРЕДК") {
       pos = RussianPos::Ptr(new russian::Predicate());
       russian::Predicate* pp = static_cast<russian::Predicate*>(pos.get());
-      pp->lang_       = attrs.lang_;
-      pp->time_       = attrs.time_;
-      pp->unchanged_  = attrs.unchanged_;
+      pp->lang_ = attrs.lang_;
+      pp->time_ = attrs.time_;
+      pp->unchanged_ = attrs.unchanged_;
     } else if (fields[2] == "ПРЕДЛ") {
       pos = RussianPos::Ptr(new russian::Preposition());
       russian::Preposition* pp = static_cast<russian::Preposition*>(pos.get());
-      pp->lang_       = attrs.lang_;
+      pp->lang_ = attrs.lang_;
     } else if (fields[2] == "СОЮЗ") {
       pos = RussianPos::Ptr(new russian::Conjuction());
       russian::Conjuction* pp = static_cast<russian::Conjuction*>(pos.get());
-      pp->lang_       = attrs.lang_;
+      pp->lang_ = attrs.lang_;
     } else if (fields[2] == "МЕЖД") {
       pos = RussianPos::Ptr(new russian::Interjection());
       russian::Interjection* pp = static_cast<russian::Interjection*>(pos.get());
-      pp->lang_       = attrs.lang_;
+      pp->lang_ = attrs.lang_;
     } else if (fields[2] == "ЧАСТ") {
       pos = RussianPos::Ptr(new russian::Particle());
       russian::Particle* pp = static_cast<russian::Particle*>(pos.get());
-      pp->lang_       = attrs.lang_;
+      pp->lang_ = attrs.lang_;
     } else if (fields[2] == "ВВОДН") {
       pos = RussianPos::Ptr(new russian::IntroductionaryWord());
       russian::IntroductionaryWord* pp = static_cast<russian::IntroductionaryWord*>(pos.get());
-      pp->lang_       = attrs.lang_;
+      pp->lang_ = attrs.lang_;
     } else if (fields[2] == "КР_ПРИЛ") {
       pos = RussianPos::Ptr(new russian::Adjective());
       russian::Adjective* pp = static_cast<russian::Adjective*>(pos.get());
-      pp->number_     = attrs.number_;
-      pp->lang_       = attrs.lang_;
-      pp->gender_     = attrs.gender_;
-      pp->case_       = attrs.case_;
-      pp->animation_  = attrs.animation_;
-      pp->brevity_    = true;
+      pp->number_ = attrs.number_;
+      pp->lang_ = attrs.lang_;
+      pp->gender_ = attrs.gender_;
+      pp->case_ = attrs.case_;
+      pp->animation_ = attrs.animation_;
+      pp->brevity_ = true;
     } else if (fields[2] == "КР_ПРИЧАСТИЕ") {
       pos = RussianPos::Ptr(new russian::Participle());
       russian::Participle* pp = static_cast<russian::Participle*>(pos.get());
-      pp->number_     = attrs.number_;
-      pp->lang_       = attrs.lang_;
-      pp->time_       = attrs.time_;
-      pp->voice_      = attrs.voice_;
-      pp->case_       = attrs.case_;
-      pp->gender_     = attrs.gender_;
-      pp->animation_  = attrs.animation_;
+      pp->number_ = attrs.number_;
+      pp->lang_ = attrs.lang_;
+      pp->time_ = attrs.time_;
+      pp->voice_ = attrs.voice_;
+      pp->case_ = attrs.case_;
+      pp->gender_ = attrs.gender_;
+      pp->animation_ = attrs.animation_;
     }
 
     if (pos.get()) {
@@ -410,4 +410,5 @@ private:
   MainFormCodeList mf_codes_;
 };
 
-}} // namespace strutext, morpho.
+}  // namespace morpho
+}  // namespace strutext

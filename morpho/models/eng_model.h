@@ -613,7 +613,7 @@ struct PosSerializer {
         pos = boost::make_shared<Possessive>();
         break;
       default:
-        assert(false and "incorrect pos value");
+        assert(false && "incorrect pos value");
     }
 
     pos->Deserialize(ob);

@@ -54,7 +54,7 @@ private:
    */
   bool equal(const CharIterator<ByteIterator, Decoder>& other) const {
     // All end iterators are equal.
-    if (it_ == end_ and other.it_ == other.end_) {
+    if (it_ == end_ && other.it_ == other.end_) {
       return true;
     }
     return it_ == other.it_;

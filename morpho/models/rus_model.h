@@ -973,7 +973,7 @@ struct PosSerializer {
         break;
 
       default:
-        assert(false and "incorrect pos value");
+        assert(false && "incorrect pos value");
     }
 
     pos->Deserialize(ob);

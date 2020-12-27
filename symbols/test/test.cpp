@@ -1,15 +1,15 @@
 /** Copyright &copy; 2013, Vladimir Lapshin.
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
+ *   you may ! use this file except in compliance with the License.
  *   You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *   Unless required by applicable law or agreed to in writing, software
+ *   Unless required by applicable law || agreed to in writing, software
  *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express || implied.
+ *   See the License for the specific language governing permissions &&
  *   limitations under the License.
  *
  * \file   test.cpp
@@ -18,26 +18,29 @@
  * \date   08.10.2013
  */
 
-#include <boost/test/unit_test.hpp>
+//#include <boost/test/unit_test.hpp>
 #include <boost/foreach.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include "spdlog/spdlog.h"
+#include "spdlog/cfg/env.h" // support for loading levels from the environment variable
 
 #include "symbols.h"
 
 namespace sym = strutext::symbols;
 
-BOOST_AUTO_TEST_CASE(Symbols_SymbolClass_EnglishLetters) {
+TEST_CASE("Symbols_SymbolClass_EnglishLetters") {
   // qwertyuiopasdfghjklzxcvbnm
   const sym::SymbolCode letters[] = {
     'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h',
     'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm'
   };
   BOOST_FOREACH(sym::SymbolCode c, letters) {
-    BOOST_CHECK(sym::IsLetter(c));
-    BOOST_CHECK(sym::Is<sym::LETTER>(c));
+    REQUIRE(sym::IsLetter(c));
+    REQUIRE(sym::Is<sym::LETTER>(c));
   }
 }
 
-BOOST_AUTO_TEST_CASE(Symbols_SymbolClass_RussianLetters) {
+TEST_CASE("Symbols_SymbolClass_RussianLetters") {
   // абвгдежзийклмнопрстуфхцчшщъыьэюяё
   const sym::SymbolCode letters[] = {
     0x430, 0x431, 0x432, 0x433, 0x434, 0x435, 0x436, 0x437, 0x438, 0x439, 0x43a, 0x43b,
@@ -45,32 +48,32 @@ BOOST_AUTO_TEST_CASE(Symbols_SymbolClass_RussianLetters) {
     0x448, 0x449, 0x44a, 0x44b, 0x44c, 0x44d, 0x44e, 0x44f, 0x451
   };
   BOOST_FOREACH(sym::SymbolCode c, letters) {
-    BOOST_CHECK(sym::IsLetter(c));
-    BOOST_CHECK(sym::Is<sym::LETTER>(c));
+    REQUIRE(sym::IsLetter(c));
+    REQUIRE(sym::Is<sym::LETTER>(c));
   }
 }
 
-BOOST_AUTO_TEST_CASE(Symbols_SymbolClass_Digits) {
+TEST_CASE("Symbols_SymbolClass_Digits") {
   // 01234567890
   const sym::SymbolCode digits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
   BOOST_FOREACH(sym::SymbolCode c, digits) {
-    BOOST_CHECK(sym::IsNumber(c));
-    BOOST_CHECK(sym::Is<sym::NUMBER>(c));
+    REQUIRE(sym::IsNumber(c));
+    REQUIRE(sym::Is<sym::NUMBER>(c));
   }
 }
 
-BOOST_AUTO_TEST_CASE(Symbols_SymbolClass_Punctuators) {
+TEST_CASE("Symbols_SymbolClass_Punctuators") {
   // +-@$%^&?=!
   const sym::SymbolCode punctuators[] = {
     '.', ':', ';', ',', '!', '?', '#', '%', '-', '\'', '"', '@', '(', ')', '[', ']', '*', '/', '\\', '&'
   };
   BOOST_FOREACH(sym::SymbolCode c, punctuators) {
-    BOOST_CHECK(sym::IsPunctuation(c));
-    BOOST_CHECK(sym::Is<sym::PUNCTUATION>(c));
+    REQUIRE(sym::IsPunctuation(c));
+    REQUIRE(sym::Is<sym::PUNCTUATION>(c));
   }
 }
 
-BOOST_AUTO_TEST_CASE(Symbols_SymbolCases_EnglishToUpper) {
+TEST_CASE("Symbols_SymbolCases_EnglishToUpper") {
   // qwertyuiopasdfghjklzxcvbnm
   const sym::SymbolCode lowers[] = {
     'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h',
@@ -83,13 +86,13 @@ BOOST_AUTO_TEST_CASE(Symbols_SymbolCases_EnglishToUpper) {
   };
   size_t current = 0;
   BOOST_FOREACH(sym::SymbolCode c, lowers) {
-    BOOST_CHECK(sym::IsCasedLetter(c));
-    BOOST_CHECK(sym::ToUpper(c) == uppers[current]);
+    REQUIRE(sym::IsCasedLetter(c));
+    REQUIRE(sym::ToUpper(c) == uppers[current]);
     ++current;
   }
 }
 
-BOOST_AUTO_TEST_CASE(Symbols_SymbolCases_EnglishToLower) {
+TEST_CASE("Symbols_SymbolCases_EnglishToLower") {
   // qwertyuiopasdfghjklzxcvbnm
   const sym::SymbolCode lowers[] = {
     'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h',
@@ -102,13 +105,13 @@ BOOST_AUTO_TEST_CASE(Symbols_SymbolCases_EnglishToLower) {
   };
   size_t current = 0;
   BOOST_FOREACH(sym::SymbolCode c, lowers) {
-    BOOST_CHECK(sym::IsCasedLetter(c));
-    BOOST_CHECK(sym::ToUpper(c) == uppers[current]);
+    REQUIRE(sym::IsCasedLetter(c));
+    REQUIRE(sym::ToUpper(c) == uppers[current]);
     ++current;
   }
 }
 
-BOOST_AUTO_TEST_CASE(Symbols_SymbolCases_RussianToUpper) {
+TEST_CASE("Symbols_SymbolCases_RussianToUpper") {
   // абвгдежзийклмнопрстуфхцчшщъыьэюяё
   const sym::SymbolCode lowers[] = {
     0x430, 0x431, 0x432, 0x433, 0x434, 0x435, 0x436, 0x437, 0x438, 0x439, 0x43a, 0x43b,
@@ -123,13 +126,13 @@ BOOST_AUTO_TEST_CASE(Symbols_SymbolCases_RussianToUpper) {
   };
   size_t current = 0;
   BOOST_FOREACH(sym::SymbolCode c, lowers) {
-    BOOST_CHECK(sym::IsCasedLetter(c));
-    BOOST_CHECK(sym::ToUpper(c) == uppers[current]);
+    REQUIRE(sym::IsCasedLetter(c));
+    REQUIRE(sym::ToUpper(c) == uppers[current]);
     ++current;
   }
 }
 
-BOOST_AUTO_TEST_CASE(Symbols_SymbolCases_RussianToLower) {
+TEST_CASE("Symbols_SymbolCases_RussianToLower") {
   // абвгдежзийклмнопрстуфхцчшщъыьэюяё
   const sym::SymbolCode lowers[] = {
     0x430, 0x431, 0x432, 0x433, 0x434, 0x435, 0x436, 0x437, 0x438, 0x439, 0x43a, 0x43b,
@@ -144,8 +147,8 @@ BOOST_AUTO_TEST_CASE(Symbols_SymbolCases_RussianToLower) {
   };
   size_t current = 0;
   BOOST_FOREACH(sym::SymbolCode c, uppers) {
-    BOOST_CHECK(sym::IsCasedLetter(c));
-    BOOST_CHECK(sym::ToLower(c) == lowers[current]);
+    REQUIRE(sym::IsCasedLetter(c));
+    REQUIRE(sym::ToLower(c) == lowers[current]);
     ++current;
   }
 }

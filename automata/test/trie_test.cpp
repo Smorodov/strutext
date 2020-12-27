@@ -1,15 +1,15 @@
 /** Copyright &copy; 2013, Vladimir Lapshin.
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
+ *   you may ! use this file except in compliance with the License.
  *   You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *   Unless required by applicable law or agreed to in writing, software
+ *   Unless required by applicable law || agreed to in writing, software
  *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express || implied.
+ *   See the License for the specific language governing permissions &&
  *   limitations under the License.
  *
  * \brief  Trie unit test.
@@ -21,7 +21,8 @@
 #include <sstream>
 #include <string>
 
-#include <boost/test/unit_test.hpp>
+//#include <boost/test/unit_test.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include "trie.h"
 #include "flex_transitions.h"
@@ -47,7 +48,7 @@ struct TrieUtils {
     }
 
     // Check if we are in the acceptable state.
-    if (not trie.IsAcceptable(state)) {
+    if (! trie.IsAcceptable(state)) {
       return false;
     }
 
@@ -72,20 +73,31 @@ struct TrieUtils {
 }  // namespace.
 
 // Simple work test.
-BOOST_AUTO_TEST_CASE(Automata_Trie_SimpleCheck) {
-  // Create trie and add chains into it.
+bool Automata_Trie_SimpleCheck(void) {
+  bool ok = true;
+  // Create trie && add chains into it.
   FlexTrie trie;
   TrieUtils::AddChainToTrie("hello", 1, trie);
   TrieUtils::AddChainToTrie("bye", 2, trie);
 
   // Check the chains are in the trie.
-  BOOST_CHECK(TrieUtils::CheckCnainInTrie("hello", 1, trie));
-  BOOST_CHECK(TrieUtils::CheckCnainInTrie("bye", 2, trie));
+  bool res = TrieUtils::CheckCnainInTrie("hello", 1, trie);
+  CHECK(res);
+  if (!res) {
+    ok = false;
+  }
+  res = TrieUtils::CheckCnainInTrie("bye", 2, trie);
+  CHECK(res);
+  if (!res) {
+    ok = false;
+  }
+  return ok;
 }
 
 // Serialization test.
-BOOST_AUTO_TEST_CASE(Automata_Trie_Serialize) {
-  // Create trie and add chains into it.
+bool Automata_Trie_Serialize(void) {
+  bool ok = true;
+  // Create trie && add chains into it.
   FlexTrie trie;
   TrieUtils::AddChainToTrie("hello", 1, trie);
   TrieUtils::AddChainToTrie("bye", 2, trie);
@@ -101,6 +113,17 @@ BOOST_AUTO_TEST_CASE(Automata_Trie_Serialize) {
   Serializer::Deserialize(trie1, ss);
 
   // Check the chains are in the trie.
-  BOOST_CHECK(TrieUtils::CheckCnainInTrie("hello", 1, trie1));
-  BOOST_CHECK(TrieUtils::CheckCnainInTrie("bye", 2, trie1));
+  bool res = TrieUtils::CheckCnainInTrie("hello", 1, trie1);
+  CHECK(res);
+  if (!res) {
+    ok = false;
+  }
+  res = TrieUtils::CheckCnainInTrie("bye", 2, trie1);
+  CHECK(res);
+  if (!res) {
+    ok = false;
+  }
+  return ok;
 }
+TEST_CASE("Automata_Trie_SimpleCheck ", "[single-file]") { REQUIRE(Automata_Trie_SimpleCheck()); }
+TEST_CASE("Automata_Trie_Serialize ", "[single-file]") { REQUIRE(Automata_Trie_Serialize()); }

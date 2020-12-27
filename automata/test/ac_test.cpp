@@ -1,15 +1,15 @@
 /** Copyright &copy; 2013, Vladimir Lapshin.
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
+ *   you may ! use this file except in compliance with the License.
  *   You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *   Unless required by applicable law or agreed to in writing, software
+ *   Unless required by applicable law || agreed to in writing, software
  *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express || implied.
+ *   See the License for the specific language governing permissions &&
  *   limitations under the License.
  *
  * \brief  Aho-Corasick trie unit test.
@@ -21,13 +21,13 @@
 #include <string>
 #include <sstream>
 
-#include <boost/test/unit_test.hpp>
+// #include <boost/test/unit_test.hpp>
 
 #include "aho_corasick.h"
 #include "ac_iterator.h"
 #include "flex_transitions.h"
 #include "serializer.h"
-
+#include <catch2/catch_test_macros.hpp>
 namespace {
 
 // Type definitions.
@@ -49,8 +49,9 @@ struct TrieUtils {
 
 }  // namespace.
 
-BOOST_AUTO_TEST_CASE(Automata_AcTrie_Search) {
-  // Create the trie and add chains there.
+bool Automata_AcTrie_Search(void) {
+  bool ok=true;
+  // Create the trie && add chains there.
   AcTrie trie;
   TrieUtils::AddChainToTrie("abcde", 1, trie);
   TrieUtils::AddChainToTrie("ab", 2, trie);
@@ -70,47 +71,83 @@ BOOST_AUTO_TEST_CASE(Automata_AcTrie_Search) {
     const AcTrie::AttributeList& st_attrs = trie.GetStateAttributes(state);
     switch (i) {
       case 0: case 1: case 3: // There must be found nothing.
-        BOOST_CHECK(st_attrs.size() == 0);
+        CHECK(st_attrs.size() == 0);
+        if(st_attrs.size() != 0) {
+          ok = false;
+        }
         break;
       case 2: // "cde" must be found.
-        BOOST_CHECK(st_attrs.size() == 1);
+        CHECK(st_attrs.size() == 1);
+        if (st_attrs.size() != 1) {
+          ok = false;
+        }
         for (size_t j = 0; j < st_attrs.size(); ++j) {
-          BOOST_CHECK(st_attrs[j] == 5);
+        CHECK(st_attrs[j] == 5);
+          if (st_attrs[j] != 5) {
+            ok = false;
+          }
         }
         break;
       case 4: // "ab" must be found.
-        BOOST_CHECK(st_attrs.size() == 1);
+        CHECK(st_attrs.size() == 1);
+        if (st_attrs.size() != 1) {
+          ok = false;
+        }
         for (size_t j = 0; j < st_attrs.size(); ++j) {
-          BOOST_CHECK(st_attrs[j] == 2);
+        CHECK(st_attrs[j] == 2);
+          if (st_attrs[j] != 2) {
+            ok = false;
+          }
         }
         break;
       case 5: // "abc" must be found.
-        BOOST_CHECK(st_attrs.size() == 1);
+        CHECK(st_attrs.size() == 1);
+        if (st_attrs.size() != 1) {
+          ok = false;
+        }
         for (size_t j = 0; j < st_attrs.size(); ++j) {
-          BOOST_CHECK(st_attrs[j] == 3);
+        CHECK(st_attrs[j] == 3);
+          if (st_attrs[j] != 3) {
+            ok = false;
+          }
         }
         break;
       case 6: // "abcd" must be found.
-        BOOST_CHECK(st_attrs.size() == 1);
+        CHECK(st_attrs.size() == 1);
+        if (st_attrs.size() != 1) {
+          ok = false;
+        }
         for (size_t j = 0; j < st_attrs.size(); ++j) {
-          BOOST_CHECK(st_attrs[j] == 4);
+        CHECK(st_attrs[j] == 4);
+          if (st_attrs[j] != 4) {
+            ok = false;
+          }
         }
         break;
-      case 7: // "cde" and "abcde" must be found.
-        BOOST_CHECK(st_attrs.size() == 2);
+      case 7: // "cde" && "abcde" must be found.
+        CHECK(st_attrs.size() == 2);
+        if (st_attrs.size() != 2) {
+          ok = false;
+        }
         for (size_t j = 0; j < st_attrs.size(); ++j) {
-          BOOST_CHECK(st_attrs[j] == 1 or st_attrs[j] == 5);
+        CHECK( (st_attrs[j] == 1 || st_attrs[j] == 5) );
+          if (st_attrs[j] != 1 && st_attrs[j]!=5) {
+            ok = false;
+          }
         }
         break;
       default:
-        BOOST_CHECK(false);
+        CHECK(false);
+        ok = false;
         break;
     }
   }
+  return ok;
 }
 
-BOOST_AUTO_TEST_CASE(Automata_AcTrie_Serialize) {
-  // Create the trie and add chains there.
+bool Automata_AcTrie_Serialize(void) {
+  bool ok = true;
+  // Create the trie && add chains there.
   AcTrie trie;
   TrieUtils::AddChainToTrie("he", 1, trie);
   TrieUtils::AddChainToTrie("hers", 2, trie);
@@ -139,30 +176,48 @@ BOOST_AUTO_TEST_CASE(Automata_AcTrie_Serialize) {
     const AcTrie::AttributeList& st_attrs = trie.GetStateAttributes(state);
     switch (i) {
       case 0: case 1: case 2: case 4: // Nothing should be found.
-        BOOST_CHECK(st_attrs.size() == 0);
+        CHECK(st_attrs.size() == 0);
+        if (st_attrs.size() != 0) {
+          ok = false;
+        }
         break;
-      case 3: // "she" and "he" must be found.
-        BOOST_CHECK(st_attrs.size() == 2);
+      case 3: // "she" && "he" must be found.
+        CHECK(st_attrs.size() == 2);
+        if (st_attrs.size() != 2) {
+          ok = false;
+        }
         for (size_t j = 0; j < st_attrs.size(); ++j) {
-          BOOST_CHECK(st_attrs[j] == 1 or st_attrs[j] == 4);
+        CHECK( (st_attrs[j] == 1 || st_attrs[j] == 4) );
+          if (st_attrs[j] != 1 && st_attrs[j]!=4) {
+            ok = false;
+          }
         }
         break;
       case 5: // "hers" must be found.
-        BOOST_CHECK(st_attrs.size() == 1);
+        CHECK(st_attrs.size() == 1);
+        if (st_attrs.size() != 1) {
+          ok = false;
+        }
         for (size_t j = 0; j < st_attrs.size(); ++j) {
-          BOOST_CHECK(st_attrs[j] == 2);
+        CHECK(st_attrs[j] == 2);
+          if (st_attrs[j] != 2) {
+            ok = false;
+          }
         }
         break;
       default:
-        BOOST_CHECK(false);
+        CHECK(false);
+        ok = false;
         break;
     }
   }
+  return ok;
 }
 
 // AC iterator simple search test.
-BOOST_AUTO_TEST_CASE(Automata_AcIterator_Search) {
-  // Create the trie and add chains there.
+bool Automata_AcIterator_Search(void) {
+  bool ok = true;
+  // Create the trie && add chains there.
   AcTrie trie;
   TrieUtils::AddChainToTrie("he", 1, trie);
   TrieUtils::AddChainToTrie("hers", 2, trie);
@@ -178,30 +233,48 @@ BOOST_AUTO_TEST_CASE(Automata_AcIterator_Search) {
   for (AcIterator it(text.begin(), text.end(), trie); it != AcIterator(); ++it, ++pos) {
     switch (pos) {
       case 0: case 1: case 2: case 4: // Nothing should be found.
-        BOOST_CHECK((*it).size() == 0);
+        CHECK((*it).size() == 0);
+        if ((*it).size() != 0) {
+          ok = false;
+        }
         break;
-      case 3: // "she" and "he" should be found.
-        BOOST_CHECK((*it).size() == 2);
+      case 3: // "she" && "he" should be found.
+        CHECK((*it).size() == 2);
+        if ((*it).size() != 2) {
+          ok = false;
+        }
         for (size_t i = 0; i < (*it).size(); ++i) {
-          BOOST_CHECK((*it)[i] == 1 or (*it)[i] == 4);
+          CHECK( ((*it)[i] == 1 || (*it)[i] == 4) );
+          if ((*it)[i] != 1 && (*it)[i]!=4) {
+            ok = false;
+          }
         }
         break;
       case 5: // "hers" should be found.
-        BOOST_CHECK((*it).size() == 1);
+        CHECK((*it).size() == 1);
+        if ((*it).size() != 1) {
+          ok = false;
+        }
         for (size_t i = 0; i < (*it).size(); ++i) {
-          BOOST_CHECK((*it)[i] == 2);
+          CHECK((*it)[i] == 2);
+          if ((*it)[i] != 2) {
+            ok = false;
+          }
         }
         break;
       default:
-        BOOST_CHECK(false);
+        CHECK(false);
+        ok = false;
         break;
     }
   }
+  return ok;
 }
 
 // AC chain iterator simple search test.
-BOOST_AUTO_TEST_CASE(Automata_ChainIterator_Search) {
-  // Create the trie and add chains there.
+bool Automata_ChainIterator_Search(void) {
+  bool ok = true;
+  // Create the trie && add chains there.
   AcTrie trie;
   TrieUtils::AddChainToTrie("he", 1, trie);
   TrieUtils::AddChainToTrie("hers", 2, trie);
@@ -218,8 +291,11 @@ BOOST_AUTO_TEST_CASE(Automata_ChainIterator_Search) {
   std::string text = "ushers";
   for (ChainIterator it(text.begin(), text.end(), trie); it != ChainIterator(); ++it) {
     switch (*it) {
-      case 1: case 4: // "she" and "he" found, it must be position 4.
-        BOOST_CHECK(it.GetPos() == 4);
+      case 1: case 4: // "she" && "he" found, it must be position 4.
+        CHECK(it.GetPos() == 4);
+        if (it.GetPos() != 4) {
+          ok = false;
+        }
         if (*it == 1) {
           he_found = true;
         } else if (*it == 4) {
@@ -227,13 +303,27 @@ BOOST_AUTO_TEST_CASE(Automata_ChainIterator_Search) {
         }
         break;
       case 2: // "hers" found, it must be position 6.
-        BOOST_CHECK(it.GetPos() == 6);
+        CHECK(it.GetPos() == 6);
+        if (it.GetPos() != 6) {
+          ok = false;
+        }
+
         hers_found = true;
         break;
       default:
-        BOOST_CHECK(false);
+        CHECK(false);
+        ok = false;
         break;
     }
   }
-  BOOST_CHECK(he_found and she_found and hers_found);
+  CHECK( (he_found && she_found && hers_found) );
+  if (!(he_found && she_found && hers_found)) {
+    ok = false;
+  }
+  return ok;
 }
+
+TEST_CASE("Automata_AcTrie_Search ", "[single-file]") { REQUIRE(Automata_AcTrie_Search()); }
+TEST_CASE("Automata_AcTrie_Serialize ", "[single-file]") { REQUIRE(Automata_AcTrie_Serialize()); }
+TEST_CASE("Automata_AcIterator_Search ", "[single-file]") { REQUIRE(Automata_AcIterator_Search()); }
+TEST_CASE("Automata_ChainIterator_Search ", "[single-file]") { REQUIRE(Automata_ChainIterator_Search()); }

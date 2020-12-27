@@ -119,9 +119,9 @@ private:
 
   inline bool equal(const NgramIterator& other) const {
     // All end of stream iterators are equal.
-    if (ngram_len_ == 0 and other.ngram_len_ == 0) {
+    if (ngram_len_ == 0 && other.ngram_len_ == 0) {
       return true;
-    } else if (it_ == other.it_ and ngram_len_ == other.ngram_len_) {
+    } else if (it_ == other.it_ && ngram_len_ == other.ngram_len_) {
       return true;
     }
     return false;

@@ -78,7 +78,7 @@ public:
     }
 
     // Do while work states set is not empty.
-    while (not work_states.empty()) {
+    while (!work_states.empty()) {
       // Select the state from the queue.
       StateId state = work_states.back();
       work_states.pop_back();
@@ -158,7 +158,7 @@ public:
 
     // If the move is absent, then try to mive by fail transitions.
     StateId cs = from;
-    while (to == kInvalidState and cs > kStartState) {
+    while (to == kInvalidState && cs > kStartState) {
       cs = ac_trie_.fail_moves_[cs];
       to = ac_trie_.Go(cs, sym);
     }
